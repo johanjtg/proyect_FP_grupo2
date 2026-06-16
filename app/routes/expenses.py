@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Query
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from app.database import get_db
@@ -33,5 +34,13 @@ def list_expenses(
 
 @router.get("/summary", response_model=List[CategorySummary])
 def get_summary(db: Session = Depends(get_db)):
-    # TODO: implement — return totals grouped by category
-    pass
+    results = (
+        db.query(
+            Expense.category,
+            func.sum(Expense.amount).label("total"),
+            func.count(Expense.id).label("count"),
+        )
+        .group_by(Expense.category)
+        .all()
+    )
+    return [{"category": r.category, "total": r.total, "count": r.count} for r in results]
