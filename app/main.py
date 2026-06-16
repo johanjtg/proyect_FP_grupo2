@@ -4,7 +4,7 @@ from app.routes import expenses, alerts
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="Expense Tracker", version="0.1.0")
+app = FastAPI(title="Expense Tracker", version="0.1.0", redirect_slashes=False)
 
 app.include_router(expenses.router)
 app.include_router(alerts.router)

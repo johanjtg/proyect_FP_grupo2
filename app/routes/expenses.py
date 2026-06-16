@@ -9,7 +9,8 @@ from app.schemas.expense import ExpenseCreate, ExpenseResponse, CategorySummary
 router = APIRouter(prefix="/expenses", tags=["Expenses"])
 
 
-@router.post("/", response_model=ExpenseResponse, status_code=201)
+@router.post("", response_model=ExpenseResponse, status_code=201)
+@router.post("/", response_model=ExpenseResponse, status_code=201, include_in_schema=False)
 def create_expense(expense: ExpenseCreate, db: Session = Depends(get_db)):
     db_expense = Expense(**expense.model_dump())
     db.add(db_expense)
