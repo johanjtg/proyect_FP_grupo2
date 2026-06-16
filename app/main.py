@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from app.database import Base, engine
 from app.routes import expenses, alerts
 
-Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine, checkfirst=True)
 
 app = FastAPI(title="Expense Tracker", version="0.1.0", redirect_slashes=False)
 
