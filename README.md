@@ -1,6 +1,6 @@
 # Expense Tracker API
 
-Rastreador de gastos personales con alertas inteligentes vía n8n + Telegram/WhatsApp.
+Rastreador de gastos personales con automatización mediante Gmail + AI by Zapier.
 
 ---
 
@@ -8,8 +8,8 @@ Rastreador de gastos personales con alertas inteligentes vía n8n + Telegram/Wha
 
 - **Backend:** Python + FastAPI
 - **Base de datos:** SQLite (por defecto) o PostgreSQL
-- **Automatización:** n8n
-- **Alertas:** Telegram o WhatsApp vía webhook de n8n
+- **Automatización:** Zapier
+- **Alertas:** Gmail mediante integración con Zapier
 
 ---
 
@@ -33,11 +33,12 @@ Configura reglas como:
 
 Las reglas se almacenan en la base de datos y se evalúan con cada nuevo gasto.
 
-### 5. Automatización con n8n
-Cuando se activa una regla de alerta, FastAPI dispara un webhook a n8n. n8n envía el mensaje por Telegram o WhatsApp.
+### 5. Automatización con Zapier
+El sistema se integra con Gmail y AI by Zapier para procesar automáticamente la información de gastos.
+Flujo de trabajo:
 
 ```
-Nuevo gasto → evaluar reglas → webhook → n8n → Telegram/WhatsApp
+Nuevo correo en Gmail → AI by Zapier analiza y clasifica → Zapier envía los datos a la API → registro automático del gasto.
 ```
 
 ---
@@ -92,7 +93,7 @@ uvicorn app.main:app --reload
 | Variable | Descripción | Valor por defecto |
 |----------|-------------|-------------------|
 | `DATABASE_URL` | Cadena de conexión SQLAlchemy | `sqlite:///./expenses.db` |
-| `N8N_WEBHOOK_URL` | URL del webhook de n8n para alertas | `http://localhost:5678/webhook/expense-alert` |
+| `ZAPIER_WEBHOOK_URL` | URL del webhook de Zapier para automatización | `http://localhost:5678/webhook/expense-alert` |
 
 ---
 
@@ -105,5 +106,5 @@ Las siguientes funcionalidades están pendientes:
 | `routes/expenses.py` | `GET /expenses/summary` — totales agrupados por categoría |
 | `routes/alerts.py` | `POST /alerts/rules` — guardar regla en BD |
 | `routes/alerts.py` | `GET /alerts/rules` — listar reglas desde BD |
-| _(nuevo archivo)_ | Motor de alertas — comparar gasto contra reglas activas y disparar webhook |
-| _(nuevo archivo)_ | Webhook n8n — HTTP POST a `N8N_WEBHOOK_URL` con payload de alerta |
+| _(nuevo archivo)_ | Motor de automatización → integración con Zapier |
+| _(nuevo archivo)_ | Webhook Zapier → HTTP POST a ZAPIER_WEBHOOK_URL` con payload de alerta |
