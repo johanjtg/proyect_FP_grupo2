@@ -3,6 +3,7 @@
 Rastreador de gastos personales con automatización mediante Gmail + AI by Zapier.
 
 ---
+Video del proyecto funcionando -> grabar-proyecto-funcionando.mp4
 
 ## Stack
 
